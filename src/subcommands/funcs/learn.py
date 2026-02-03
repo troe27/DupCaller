@@ -39,6 +39,9 @@ def profileTriNucMismatches(seqs, reference_int, trinuc_int, hp_int, antimask, p
     del_rows = list()
     for mm, seq in enumerate(F1R2):
         qualities = seq.query_alignment_qualities
+        if qualities is None:
+            del_rows.append(mm)
+            continue
         sequence = np.array(list(seq.query_alignment_sequence))
         cigartuples = seq.cigartuples
         # seq_mask = np.zeros(sequence.size,dtype = bool)
@@ -77,6 +80,9 @@ def profileTriNucMismatches(seqs, reference_int, trinuc_int, hp_int, antimask, p
     F1R2_qual_mat[F1R2_qual_mat <= params["minBq"]] = 6
     for mm, seq in enumerate(F2R1):
         qualities = seq.query_alignment_qualities
+        if qualities is None:
+            del_rows.append(mm)
+            continue
         sequence = np.array(list(seq.query_alignment_sequence))
         cigartuples = seq.cigartuples
         # seq_mask = np.zeros(sequence.size,dtype = bool)
